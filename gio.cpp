@@ -7,7 +7,8 @@
 #if defined(__linux__) || defined (__APPLE__)
 #include <unistd.h>
 #elif defined(_WIN32)
-
+#include <io.h>
+#include <fcntl.h>
 #endif
 
 namespace gio
@@ -58,11 +59,16 @@ namespace gio
 #if defined(__linux__) || defined (__APPLE__)
     FILE *reopenWriteBinary(FILE * aStream)
     {
-        return fdopen(dup(fileno(stdout)), "wb");
+        return fdopen(dup(fileno(aStream)), "wb");
     }
 
 #elif defined(_WIN32)
-
+    FILE* reopenWriteBinary(FILE* aStream)
+    {
+        FILE *f = _fdopen(_dup(_fileno(aStream)), "wb");
+        _setmode(_fileno(f), O_BINARY);
+        return f;
+    }
 #endif
 
 }

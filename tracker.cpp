@@ -28,7 +28,7 @@ namespace Ant
     {
         for(Point const & pt: mVisitedPoints)
         {
-            if(pt.x >= 0 && pt.y >= 0 && pt.x < aImage.width() && pt.y < aImage.height())
+            if(pt.x >= 0 && pt.y >= 0 && pt.x < (int)aImage.width() && pt.y < (int)aImage.height())
             {
                 imaging::PixelRGBA & pixel = aImage.pixel(pt.x, pt.y);
                 pixel = (pixel == imaging::PixelWHITE ? imaging::PixelGREEN : imaging::PixelRED);
